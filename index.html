@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Portfolio">
+<meta name="theme-color" content="#003366">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<title>Portfolio Alexandre</title>
+<style>
+:root{
+  --blue:#003366;--accent:#e87722;--green:#1a7a1a;--red:#cc0000;
+  --bg:#f0f4f8;--white:#fff;--border:#dde3ea;
+  --text:#1a1a2e;--muted:#64748b;--card:#fff;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);padding-bottom:calc(72px + var(--safe-bottom));}
+
+/* HEADER */
+.hdr{background:var(--blue);padding:calc(var(--safe-top)+10px) 16px 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;padding-bottom:8px;}
+.hdr-row h1{font-size:15px;font-weight:700;color:#fff;}
+.hdr-row p{font-size:9px;color:rgba(255,255,255,.6);margin-top:1px;}
+.logo{font-size:13px;font-weight:900;color:#fff;}.logo span{color:var(--accent);}
+.tabs{display:flex;border-top:1px solid rgba(255,255,255,.12);}
+.tab{flex:1;padding:7px 2px;text-align:center;font-size:10px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;}
+.tab.active{color:#fff;border-bottom-color:var(--accent);}
+
+/* TOTAL CARD */
+.tc{margin:10px 14px 8px;border-radius:12px;padding:12px 14px;color:#fff;}
+.tc.all{background:linear-gradient(135deg,#1a1a2e,#2d2d5e);}
+.tc.usd{background:linear-gradient(135deg,#003366,#1a4d80);}
+.tc.brl{background:linear-gradient(135deg,#1a5c1a,#2d8c2d);}
+.tc .lbl{font-size:9px;opacity:.7;text-transform:uppercase;letter-spacing:.5px;}
+.tc .val{font-size:20px;font-weight:700;margin:3px 0 2px;font-family:monospace;}
+.tc .sub{font-size:10px;opacity:.8;}
+.tc .row{display:flex;gap:4px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.15);}
+.tc .item{flex:1;}.tc .item .tl{font-size:8px;opacity:.6;text-transform:uppercase;}.tc .item .tv{font-size:11px;font-weight:700;margin-top:1px;}
+
+/* SCROLL CARDS */
+.scr{display:flex;gap:8px;padding:0 14px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.scr::-webkit-scrollbar{display:none;}
+.sc{min-width:110px;background:var(--card);border-radius:10px;padding:9px 11px;border:1px solid var(--border);flex-shrink:0;}
+.sc .l{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+.sc .v{font-size:13px;font-weight:700;margin-top:2px;}
+.sc .s{font-size:8px;color:var(--muted);margin-top:1px;}
+
+/* BUTTONS */
+.br{display:flex;gap:6px;padding:0 14px 7px;}
+.btn{flex:1;padding:8px 4px;color:#fff;border:none;border-radius:7px;font-size:10px;font-weight:600;cursor:pointer;text-align:center;background:var(--blue);}
+.btn.g{background:#1a5c1a;}.btn.o{background:#fff;color:var(--blue);border:1px dashed var(--border);}
+label.btn{display:block;}
+
+/* PROGRESS */
+.pg{margin:0 14px 7px;background:var(--card);border-radius:8px;padding:7px 11px;border:1px solid var(--border);display:none;}
+.pg.on{display:block;}.pg p{font-size:10px;color:var(--muted);margin-bottom:3px;}
+.pg-bg{background:var(--border);border-radius:3px;height:4px;overflow:hidden;}
+.pg-f{height:100%;background:var(--blue);border-radius:3px;transition:width .3s;}
+
+/* STATUS BAR */
+.sb{margin:0 14px 8px;background:var(--card);border-radius:8px;padding:7px 11px;border:1px solid var(--border);}
+.sb p{font-size:10px;color:var(--muted);line-height:1.4;}
+
+/* SECTION TITLE */
+.st{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);padding:2px 14px 5px;display:flex;align-items:center;gap:5px;}
+.stb{color:#fff;font-size:8px;padding:2px 5px;border-radius:6px;background:var(--blue);}
+.stb.g{background:#1a5c1a;}
+
+/* FUND CARD */
+.fl{padding:0 14px;display:flex;flex-direction:column;gap:5px;}
+.fc{background:var(--card);border-radius:9px;border:1px solid var(--border);overflow:hidden;}
+.fc.sub{margin-left:12px;border-left:3px solid #c5d8ed;border-radius:0 9px 9px 0;}
+.fh{padding:9px 11px 7px;display:flex;align-items:flex-start;gap:7px;}
+.fn2{background:var(--blue);color:#fff;font-size:8px;font-weight:700;min-width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sub .fn2{background:#6b93b8;}
+.fi{flex:1;}.fnm{font-size:10px;font-weight:600;color:var(--blue);line-height:1.3;}
+.sub .fnm{font-size:9px;color:#4a6fa5;}
+.fc2{font-size:8px;color:var(--muted);font-family:monospace;margin-top:1px;}
+.fdg{border-top:1px solid var(--border);padding:7px 11px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;}
+.dl{font-size:7px;text-transform:uppercase;color:var(--muted);}
+.dv{font-size:10px;font-weight:600;margin-top:1px;font-family:monospace;}
+.nmr{border-top:1px solid var(--border);padding:7px 11px;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.nl{font-size:7px;text-transform:uppercase;color:var(--muted);}
+.nv{font-size:12px;font-weight:700;color:var(--blue);font-family:monospace;margin-top:1px;}
+.gr{border-top:1px solid var(--border);padding:6px 11px;}
+.grl{font-size:7px;text-transform:uppercase;color:var(--muted);margin-bottom:1px;}
+.grv{font-size:12px;font-weight:700;font-family:monospace;}
+.lnks{border-top:1px solid var(--border);padding:5px 11px;display:flex;gap:5px;}
+.lnk{flex:1;display:block;text-align:center;padding:4px;border-radius:5px;font-size:9px;font-weight:600;text-decoration:none;background:#f0f4f8;color:var(--blue);border:1px solid var(--border);}
+
+/* STOCK CARD */
+.sk{background:var(--card);border-radius:9px;border:1px solid var(--border);overflow:hidden;margin-bottom:5px;}
+.skh{padding:9px 11px 7px;display:flex;align-items:center;gap:7px;}
+.skt{color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:5px;font-family:monospace;flex-shrink:0;}
+.ski{flex:1;}.skn{font-size:11px;font-weight:600;line-height:1.2;}.skq{font-size:8px;color:var(--muted);margin-top:1px;}
+.skp-b{text-align:right;}.skp{font-size:15px;font-weight:700;font-family:monospace;color:var(--blue);}
+.skc{font-size:9px;font-weight:600;margin-top:1px;}
+.skg{border-top:1px solid var(--border);padding:7px 11px;display:flex;justify-content:space-between;align-items:center;}
+.skgl{font-size:8px;color:var(--muted);text-transform:uppercase;}
+.skgv{font-size:12px;font-weight:700;font-family:monospace;}
+.sdg{border-top:1px solid var(--border);padding:7px 11px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;}
+.slw{border-top:1px solid var(--border);}
+.slo{padding:5px 11px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px;border-bottom:1px solid #f5f5f5;}
+.ll{font-size:7px;color:var(--muted);text-transform:uppercase;}.lv{font-size:9px;font-weight:600;font-family:monospace;}
+
+/* BR ASSET */
+.brc{background:var(--card);border-radius:9px;border:1px solid var(--border);border-left:3px solid #2d8c2d;overflow:hidden;margin-bottom:5px;}
+.brh{padding:8px 11px;display:flex;align-items:center;gap:7px;}
+.brbg{font-size:8px;font-weight:700;padding:2px 5px;border-radius:4px;text-transform:uppercase;flex-shrink:0;color:#fff;}
+.brnm{font-size:10px;font-weight:600;flex:1;line-height:1.2;}.brpct{font-size:11px;font-weight:700;color:var(--blue);}
+.brd{border-top:1px solid var(--border);padding:6px 11px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;}
+
+/* RENT TABLE */
+.rt{margin:0 14px 9px;background:var(--card);border-radius:9px;border:1px solid var(--border);overflow:hidden;}
+.rt table{width:100%;border-collapse:collapse;}
+.rt th{background:#1a1a2e;color:#fff;padding:5px 6px;text-align:left;font-size:7px;text-transform:uppercase;}
+.rt th:not(:first-child){text-align:right;}
+.rt td{padding:5px 6px;border-bottom:1px solid var(--border);font-size:9px;}
+.rt td:not(:first-child){text-align:right;font-family:monospace;}
+.rt tr:last-child td{border:none;font-weight:700;background:#f8f8f8;}
+.cdot{display:inline-block;width:6px;height:6px;border-radius:2px;margin-right:3px;vertical-align:middle;}
+
+/* CASH */
+.cc{background:var(--card);border-radius:9px;border:1px solid var(--border);padding:9px 11px;display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
+.cci{flex:1;margin-left:8px;}.ccn{font-size:11px;font-weight:600;}.ccs{font-size:8px;color:var(--muted);}
+.ccv{font-size:14px;font-weight:700;color:var(--blue);font-family:monospace;}
+
+/* IOS HINT */
+.ios{margin:8px 14px;background:#fff8e1;border:1px solid #ffc107;border-radius:8px;padding:9px 11px;font-size:10px;color:#795548;display:none;}
+.ios.show{display:block;}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;padding:5px 0 calc(5px + var(--safe-bottom));z-index:200;box-shadow:0 -2px 8px rgba(0,0,0,.08);}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:9px;color:var(--muted);background:none;border:none;cursor:pointer;padding:2px 0;}
+.nb.active{color:var(--blue);}.nb .ico{font-size:19px;}
+
+/* UTILS */
+.pos{color:var(--green);}.neg{color:var(--red);}.blue{color:var(--blue);}.gr2{color:#1a5c1a;}
+.page{display:none;}.page.active{display:block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spin{display:inline-block;width:9px;height:9px;border:2px solid #ddd;border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:3px;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;margin-right:3px;animation:pulse 2s infinite;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-row">
+    <div><h1>Portfolio Alexandre</h1><p id="hdate">BB Securities + Banco do Brasil · <span id="htime">--:--</span></p></div>
+    <div class="logo">BB<span>Inv</span></div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('ov')">📊 Geral</div>
+    <div class="tab" onclick="showTab('usd')">🇺🇸 EUA</div>
+    <div class="tab" onclick="showTab('brl')">🇧🇷 Brasil</div>
+    <div class="tab" onclick="showTab('perf')">📈 Rent.</div>
+  </div>
+</div>
+
+<div class="ios" id="ios-hint">
+  📲 <b>Instalar no iPhone:</b> Toque em Compartilhar (□↑) → "Adicionar à Tela de Início"
+</div>
+
+<!-- ══ GERAL ══ -->
+<div class="page active" id="page-ov">
+  <div class="tc all">
+    <div class="lbl">Portfolio Total Consolidado</div>
+    <div class="val" id="ov-total">Calculando…</div>
+    <div class="sub">🇺🇸 EUA (USD) + 🇧🇷 Brasil (BRL) · 22/06/2026</div>
+    <div class="row">
+      <div class="item"><div class="tl">🇺🇸 EUA Total</div><div class="tv" id="ov-usd">—</div></div>
+      <div class="item"><div class="tl">🇧🇷 BR Líquido</div><div class="tv" style="color:#90ee90">R$788.953</div></div>
+      <div class="item"><div class="tl">Ganho EUA</div><div class="tv" id="ov-gl">—</div></div>
+      <div class="item"><div class="tl">Rent BR 12m</div><div class="tv" style="color:#90ee90">+17,34%</div></div>
+    </div>
+  </div>
+
+  <div class="st">🇺🇸 EUA <span class="stb">USD</span></div>
+  <div class="scr">
+    <div class="sc"><div class="l">Fundos MV</div><div class="v blue" id="s-fmv">—</div><div class="s">mutual funds</div></div>
+    <div class="sc"><div class="l">Ações MV</div><div class="v blue" id="s-smv">—</div><div class="s" id="s-ssub">extrato</div></div>
+    <div class="sc"><div class="l">Ganho Fundos</div><div class="v" id="s-fgl">—</div><div class="s">não realizado</div></div>
+    <div class="sc"><div class="l">Ganho Ações</div><div class="v" id="s-sgl">—</div><div class="s">não realizado</div></div>
+    <div class="sc"><div class="l">Cash USD</div><div class="v blue">$1,101</div><div class="s">conta</div></div>
+  </div>
+
+  <div class="st">🇧🇷 Brasil <span class="stb g">BRL · 22/06/2026</span></div>
+  <div class="scr">
+    <div class="sc"><div class="l">Total Bruto</div><div class="v gr2">R$791.111</div><div class="s">29/05/2026</div></div>
+    <div class="sc"><div class="l">Líquido</div><div class="v gr2">R$788.953</div><div class="s">após IR/IOF</div></div>
+    <div class="sc"><div class="l">Rendimentos</div><div class="v pos">R$104.438</div><div class="s">12 meses bruto</div></div>
+    <div class="sc"><div class="l">Rent. 12m</div><div class="v pos">+17,34%</div><div class="s">117,52% CDI</div></div>
+    <div class="sc"><div class="l">Renda Var.</div><div class="v pos">+20,66%</div><div class="s">36,26% cart.</div></div>
+  </div>
+
+  <div class="br">
+    <button class="btn" onclick="refreshStocks()">📈 Ações EUA</button>
+    <button class="btn" onclick="refreshFunds()">🏦 Fundos EUA</button>
+    <button class="btn g" onclick="refreshBR()">🇧🇷 Cotações BR</button>
+  </div>
+
+  <div class="pg" id="ov-pg"><p id="ov-pl">Atualizando…</p><div class="pg-bg"><div class="pg-f" id="ov-pf" style="width:0%"></div></div></div>
+  <div class="sb"><p id="ov-st"><span class="dot"></span>Iniciando atualização automática de preços…</p></div>
+
+  <div class="st">📈 Ações EUA</div>
+  <div style="padding:0 14px" id="ov-stocks"></div>
+  <div class="st">🇧🇷 Renda Variável BR</div>
+  <div style="padding:0 14px" id="ov-br"></div>
+</div>
+
+<!-- ══ EUA ══ -->
+<div class="page" id="page-usd">
+  <div class="tc usd">
+    <div class="lbl">Portfolio EUA — BB Securities · Jun 2026</div>
+    <div class="val" id="usd-total">—</div>
+    <div class="sub">Fundos Mútuos + Ações + Cash</div>
+    <div class="row">
+      <div class="item"><div class="tl">Fundos</div><div class="tv" id="usd-fmv">—</div></div>
+      <div class="item"><div class="tl">Ações</div><div class="tv" id="usd-smv">—</div></div>
+      <div class="item"><div class="tl">Ganho Total</div><div class="tv" id="usd-gl">—</div></div>
+    </div>
+  </div>
+  <div class="br">
+    <button class="btn" onclick="refreshStocks()">📈 Ações</button>
+    <button class="btn" onclick="refreshFunds()">🏦 Fundos</button>
+  </div>
+  <div class="pg" id="usd-pg"><p id="usd-pl">Processando…</p><div class="pg-bg"><div class="pg-f" id="usd-pf" style="width:0%"></div></div></div>
+  <div class="sb"><p id="usd-st">Dados do extrato BB Securities Jun 2026.</p></div>
+  <div class="st">📈 Ações</div>
+  <div style="padding:0 14px" id="usd-stocks"></div>
+  <div style="padding:0 14px;margin-top:2px">
+    <div class="cc"><span style="font-size:18px">💵</span><div class="cci"><div class="ccn">U.S. Dollars</div><div class="ccs">Saldo em conta</div></div><div class="ccv">$1,101.36</div></div>
+  </div>
+  <div class="st" style="margin-top:4px">🏦 Fundos Mútuos</div>
+  <div class="fl" id="usd-funds"></div>
+  <div style="height:8px"></div>
+</div>
+
+<!-- ══ BRASIL ══ -->
+<div class="page" id="page-brl">
+  <div class="tc brl">
+    <div class="lbl">Carteira Brasil — Banco do Brasil · 22/06/2026</div>
+    <div class="val">R$ 791.111,68</div>
+    <div class="sub">Líquido R$788.953,52 · Rendimentos R$104.438,58 · Perfil Agressivo</div>
+    <div class="row">
+      <div class="item"><div class="tl">Rent. 12m</div><div class="tv" style="color:#90ee90">+17,34%</div></div>
+      <div class="item"><div class="tl">vs CDI</div><div class="tv" style="color:#90ee90">117,52%</div></div>
+      <div class="item"><div class="tl">Saldo Inicial</div><div class="tv" style="color:#cde">R$819.305</div></div>
+      <div class="item"><div class="tl">Provisão IR</div><div class="tv" style="color:#faa">R$2.158</div></div>
+    </div>
+  </div>
+  <div class="br">
+    <button class="btn g" onclick="refreshBR()" style="flex:2">🔄 Atualizar Cotações B3</button>
+  </div>
+  <div class="pg" id="br-pg"><p id="br-pl">Buscando cotações B3…</p><div class="pg-bg"><div class="pg-f" id="br-pf" style="width:0%"></div></div></div>
+  <div class="sb"><p id="br-st"><span class="dot"></span>Dados do relatório BB 22/06/2026. Toque em Atualizar para cotações do dia.</p></div>
+
+  <div class="st">📈 Renda Variável <span class="stb g">36,26% · R$286.858</span></div>
+  <div style="padding:0 14px" id="br-rv"></div>
+  <div class="st">🔵 RF Inflação <span class="stb" style="background:#1a4d80">27,05% · R$213.967</span></div>
+  <div style="padding:0 14px" id="br-rfi"></div>
+  <div class="st">🟡 RF Pré <span class="stb" style="background:#8a6900">13,60% · R$107.601</span></div>
+  <div style="padding:0 14px" id="br-rfp"></div>
+  <div class="st">🟢 RF Pós CDI <span class="stb" style="background:#2d7a2d">12,54% · R$99.179</span></div>
+  <div style="padding:0 14px" id="br-rfc"></div>
+  <div class="st">🟣 Multimercados <span class="stb" style="background:#6b4fbb">10,56% · R$83.505</span></div>
+  <div style="padding:0 14px" id="br-mm"></div>
+  <div style="height:8px"></div>
+</div>
+
+<!-- ══ RENTABILIDADE ══ -->
+<div class="page" id="page-perf">
+  <div class="tc all" style="margin-top:10px">
+    <div class="lbl">Rentabilidade — Banco do Brasil · 22/06/2026</div>
+    <div class="val">+17,34% · R$104.438</div>
+    <div class="sub">30/05/2025 a 29/05/2026 · 117,52% do CDI · Perfil Agressivo</div>
+  </div>
+
+  <div class="st">Posição da Carteira</div>
+  <div class="rt"><table>
+    <thead><tr><th>Classe</th><th>Saldo Bruto</th><th>Líquido</th><th>Rent.%</th><th>%Cart.</th></tr></thead>
+    <tbody>
+      <tr><td><span class="cdot" style="background:#2d7a2d"></span>RF Pós CDI</td><td>R$99.179</td><td class="pos">R$98.818</td><td class="pos">14,17%</td><td>12,54%</td></tr>
+      <tr><td><span class="cdot" style="background:#1a4d80"></span>RF Inflação</td><td>R$213.967</td><td class="pos">R$213.311</td><td class="pos">5,05%</td><td>27,05%</td></tr>
+      <tr><td><span class="cdot" style="background:#8a6900"></span>RF Pré</td><td>R$107.601</td><td class="pos">R$106.849</td><td class="pos">9,36%</td><td>13,60%</td></tr>
+      <tr><td><span class="cdot" style="background:#6b4fbb"></span>Multimercados</td><td>R$83.505</td><td class="pos">R$83.116</td><td class="pos">13,84%</td><td>10,56%</td></tr>
+      <tr><td><span class="cdot" style="background:#cc0000"></span>Renda Variável</td><td>R$286.858</td><td class="pos">R$286.858</td><td class="pos">20,66%</td><td>36,26%</td></tr>
+      <tr><td><b>Total Carteira</b></td><td><b>R$791.111</b></td><td class="pos"><b>R$788.953</b></td><td class="pos"><b>17,34%</b></td><td><b>100%</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="st">Rentabilidade por Classe (%)</div>
+  <div class="rt"><table>
+    <thead><tr><th>Classe</th><th>12m</th><th>6m</th><th>3m</th><th>Mês</th><th>M.Ant.</th></tr></thead>
+    <tbody>
+      <tr><td><span class="cdot" style="background:#2d7a2d"></span>RF Pós CDI</td><td class="pos">14,17%</td><td class="pos">6,62%</td><td class="pos">3,26%</td><td class="pos">1,02%</td><td class="pos">1,03%</td></tr>
+      <tr><td><span class="cdot" style="background:#1a4d80"></span>RF Inflação</td><td class="pos">5,05%</td><td class="pos">1,82%</td><td class="neg">-1,81%</td><td class="pos">0,31%</td><td class="neg">-0,39%</td></tr>
+      <tr><td><span class="cdot" style="background:#8a6900"></span>RF Pré</td><td class="pos">9,36%</td><td class="pos">0,77%</td><td class="neg">-2,21%</td><td class="pos">0,70%</td><td class="neg">-0,12%</td></tr>
+      <tr><td><span class="cdot" style="background:#6b4fbb"></span>Multimercados</td><td class="pos">13,84%</td><td class="pos">5,71%</td><td class="pos">0,75%</td><td class="pos">0,20%</td><td class="pos">2,03%</td></tr>
+      <tr><td><span class="cdot" style="background:#cc0000"></span>Renda Variável</td><td class="pos">20,66%</td><td class="pos">4,80%</td><td class="neg">-5,54%</td><td class="neg">-9,08%</td><td class="pos">0,95%</td></tr>
+      <tr><td><b>Carteira</b></td><td class="pos"><b>17,34%</b></td><td class="pos"><b>5,57%</b></td><td class="neg"><b>-1,75%</b></td><td class="neg"><b>-2,96%</b></td><td class="pos"><b>0,89%</b></td></tr>
+      <tr><td>CDI</td><td>14,76%</td><td>6,95%</td><td>3,42%</td><td>1,07%</td><td>1,09%</td></tr>
+      <tr><td><b>% CDI</b></td><td class="pos"><b>117,52%</b></td><td class="pos"><b>80,15%</b></td><td class="neg"><b>-51,14%</b></td><td class="neg"><b>-275,51%</b></td><td class="pos"><b>81,36%</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="st">Rentabilidade em R$</div>
+  <div class="rt"><table>
+    <thead><tr><th>Classe</th><th>12m</th><th>6m</th><th>3m</th><th>Mês</th><th>Dia</th></tr></thead>
+    <tbody>
+      <tr><td><span class="cdot" style="background:#2d7a2d"></span>RF Pós CDI</td><td class="pos">9.869</td><td class="pos">4.716</td><td class="pos">3.591</td><td class="pos">1.234</td><td class="pos">51</td></tr>
+      <tr><td><span class="cdot" style="background:#1a4d80"></span>RF Inflação</td><td class="pos">5.081</td><td class="pos">1.126</td><td class="neg">-3.546</td><td class="pos">652</td><td class="neg">-401</td></tr>
+      <tr><td><span class="cdot" style="background:#8a6900"></span>RF Pré</td><td class="pos">7.803</td><td class="pos">929</td><td class="neg">-1.634</td><td class="pos">765</td><td class="neg">-52</td></tr>
+      <tr><td><span class="cdot" style="background:#6b4fbb"></span>Multimercados</td><td class="pos">10.186</td><td class="pos">4.544</td><td class="pos">1.670</td><td class="pos">171</td><td class="pos">30</td></tr>
+      <tr><td><span class="cdot" style="background:#cc0000"></span>Renda Variável</td><td class="pos">50.464</td><td class="pos">16.752</td><td class="pos">2.789</td><td class="neg">-27.161</td><td class="neg">-1.464</td></tr>
+      <tr><td><b>Carteira</b></td><td class="pos"><b>R$104.438</b></td><td class="pos"><b>R$31.135</b></td><td class="pos"><b>R$4.111</b></td><td class="neg"><b>-R$24.337</b></td><td class="neg"><b>-R$1.836</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="st">Liquidez da Carteira</div>
+  <div class="rt"><table>
+    <thead><tr><th>Prazo</th><th>Total Bruto</th><th>Líq. Disponível</th><th>%</th></tr></thead>
+    <tbody>
+      <tr><td>D0 — imediato</td><td>R$99.179</td><td class="pos">R$98.818</td><td>12,54%</td></tr>
+      <tr><td>1 a 3 dias</td><td>R$384.851</td><td class="pos">R$383.443</td><td>48,65%</td></tr>
+      <tr><td>4 a 30 dias</td><td>R$28.911</td><td class="pos">R$28.803</td><td>3,65%</td></tr>
+      <tr><td>61 a 90 dias</td><td>R$54.594</td><td class="pos">R$54.312</td><td>6,90%</td></tr>
+      <tr><td>Acima 360 dias</td><td>R$223.575</td><td class="pos">R$223.575</td><td>28,26%</td></tr>
+      <tr><td><b>Total</b></td><td><b>R$791.111</b></td><td class="pos"><b>R$788.953</b></td><td><b>100%</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="st">Distribuição por Risco</div>
+  <div class="rt"><table>
+    <thead><tr><th>Risco</th><th>Valor</th><th>%</th></tr></thead>
+    <tbody>
+      <tr><td>Muito Baixo</td><td>R$122.339</td><td>15,46%</td></tr>
+      <tr><td>Médio</td><td>R$156.843</td><td>19,83%</td></tr>
+      <tr><td>Médio Alto</td><td>R$83.505</td><td>10,56%</td></tr>
+      <tr><td>Alto</td><td>R$135.673</td><td>17,15%</td></tr>
+      <tr><td>Muito Alto</td><td>R$292.750</td><td>37,00%</td></tr>
+      <tr><td><b>Total</b></td><td><b>R$791.111</b></td><td><b>100%</b></td></tr>
+    </tbody>
+  </table></div>
+  <div style="height:8px"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav">
+  <button class="nb active" onclick="showTab('ov')"><span class="ico">📊</span><span>Geral</span></button>
+  <button class="nb" onclick="showTab('usd')"><span class="ico">🇺🇸</span><span>EUA</span></button>
+  <button class="nb" onclick="showTab('brl')"><span class="ico">🇧🇷</span><span>Brasil</span></button>
+  <button class="nb" onclick="showTab('perf')"><span class="ico">📈</span><span>Rent.</span></button>
+</div>
+
+<script>
+// ═══ DADOS EUA ═══
+var funds=[
+  {id:"1",   nm:"AMUNDI FIRST EAGLE INTL SICAV AU-C",     qty:0.764,   cusip:"L0219S201",uc:13154.45,lp:12468.47,cost:10050,mv:9525.91,  gl:-524.09,  gp:-5.21, tr:"Feb 25, 2026",site:"https://www.amundi.com"},
+  {id:"2",   nm:"JANUS HENDERSON HORIZON BIOTECH A2",     qty:275.103, cusip:"L56208124",uc:36.53,   lp:37.90,   cost:10050,mv:10426.40, gl:376.40,   gp:3.75,  tr:"Feb 25, 2026",site:"https://www.janushenderson.com"},
+  {id:"3",   nm:"MORGAN STANLEY GLOBAL MACRO A",          qty:564.016, cusip:"L6487Q132",uc:17.82,   lp:17.78,   cost:10050,mv:10028.20, gl:-21.80,   gp:-0.22, tr:"Feb 25, 2026",site:"https://www.morganstanley.com/im"},
+  {id:"4",   nm:"MFS MERIDIAN GLOBAL CREDIT A1",          qty:713.776, cusip:"L63667718",uc:14.08,   lp:14.00,   cost:10050,mv:9992.86,  gl:-57.14,   gp:-0.57, tr:"Sep 16, 2025",site:"https://www.mfs.com"},
+  {id:"5",   nm:"JANUS HENDERSON GLOBAL SELECT A2",       qty:902.407, cusip:"L41704351",uc:27.74,   lp:28.79,   cost:25031,mv:25978.49, gl:947.97,   gp:3.79,  tr:"Feb 18, 2026",site:"https://www.janushenderson.com"},
+  {id:"6",   nm:"PIMCO INCOME FUND CLASS E (ACC)",        qty:1114.446,cusip:"G7112M468",uc:17.86,   lp:17.95,   cost:19900,mv:20004.31, gl:104.30,   gp:0.52,  tr:"Multiple",    site:"https://www.pimco.com"},
+  {id:"6.1", nm:"PIMCO INCOME E — lote Set/25",           qty:571.755, cusip:"G7112M468",uc:17.58,   lp:17.95,   cost:10050,mv:10263.00, gl:213.00,   gp:2.12,  tr:"Set 16, 2025",site:"https://www.pimco.com",sub:true},
+  {id:"6.2", nm:"PIMCO INCOME E — lote Fev/26",           qty:542.691, cusip:"G7112M468",uc:18.15,   lp:17.95,   cost:9850, mv:9741.30,  gl:-108.70,  gp:-1.10, tr:"Fev 25, 2026",site:"https://www.pimco.com",sub:true},
+  {id:"7",   nm:"JPMORGAN US SELECT EQUITY A (ACC)",      qty:44.773,  cusip:"L57819580",uc:897.86,  lp:947.05,  cost:40200,mv:42402.27, gl:2202.27,  gp:5.48,  tr:"Sep 16, 2025",site:"https://am.jpmorgan.com"},
+  {id:"8",   nm:"JPMORGAN GLOBAL HIGH YIELD BOND A",      qty:41.776,  cusip:"L5782A875",uc:240.57,  lp:246.80,  cost:10050,mv:10310.32, gl:260.32,   gp:2.59,  tr:"Sep 16, 2025",site:"https://am.jpmorgan.com"},
+  {id:"9",   nm:"JANUS HENDERSON BALANCED FUND A (ACC)",  qty:792.326, cusip:"G50106346",uc:50.88,   lp:52.52,   cost:40314,mv:41612.96, gl:1299.40,  gp:3.22,  tr:"Feb 18, 2026",site:"https://www.janushenderson.com"},
+  {id:"10",  nm:"SCHRODER ISF GREATER CHINA A (ACC)",     qty:106.24,  cusip:"L8145T458",uc:94.60,   lp:104.90,  cost:10050,mv:11145.05, gl:1095.05,  gp:10.90, tr:"Sep 17, 2025",site:"https://www.schroders.com"},
+  {id:"11",  nm:"PIMCO BALANCED INCOME & GROWTH E (ACC)", qty:1694.197,cusip:"G7097Y800",uc:23.73,   lp:27.30,   cost:40200,mv:46251.58, gl:6051.58,  gp:15.05, tr:"Sep 16, 2025",site:"https://www.pimco.com"},
+  {id:"12",  nm:"JPMORGAN EUROPE EQUITY A (HDG)(ACC)",    qty:132.739, cusip:"L57867654",uc:378.56,  lp:452.43,  cost:50250,mv:60055.11, gl:9805.11,  gp:19.51, tr:"Sep 16, 2025",site:"https://am.jpmorgan.com"},
+  {id:"13",  nm:"BGF SUSTAINABLE ENERGY FUND A2",         qty:2474.88, cusip:"L1049K368",uc:20.30,   lp:25.44,   cost:50250,mv:62960.95, gl:12710.95, gp:25.30, tr:"Multiple",    site:"https://www.blackrock.com"},
+  {id:"13.1",nm:"BGF SUSTAINABLE ENERGY A2 — Set/25",     qty:527.70,  cusip:"L1049K368",uc:19.04,   lp:25.44,   cost:10050,mv:13424.69, gl:3374.69,  gp:33.58, tr:"Set 18, 2025",site:"https://www.blackrock.com",sub:true},
+  {id:"13.2",nm:"BGF SUSTAINABLE ENERGY A2 — Out 30/25",  qty:728.86,  cusip:"L1049K368",uc:20.68,   lp:25.44,   cost:15075,mv:18542.20, gl:3467.20,  gp:23.00, tr:"Out 30, 2025",site:"https://www.blackrock.com",sub:true},
+  {id:"13.3",nm:"BGF SUSTAINABLE ENERGY A2 — Out 31/25",  qty:1218.32, cusip:"L1049K368",uc:20.62,   lp:25.44,   cost:25125,mv:30994.06, gl:5869.06,  gp:23.36, tr:"Out 31, 2025",site:"https://www.blackrock.com",sub:true},
+  {id:"14",  nm:"SCHRODER ISF GLOBAL EMERG MKT OPP A",   qty:546.44,  cusip:"L81462670",uc:27.59,   lp:36.70,   cost:15075,mv:20056.64, gl:4981.64,  gp:33.05, tr:"Out 31, 2025",site:"https://www.schroders.com"},
+  {id:"15",  nm:"JANUS HENDERSON GLOBAL TECH & INNOV A2", qty:628.75,  cusip:"G50110223",uc:39.81,   lp:53.27,   cost:25031,mv:33493.51, gl:8462.99,  gp:33.81, tr:"Feb 18, 2026",site:"https://www.janushenderson.com"}
+];
+
+var stocks=[
+  {tk:"AMZN",nm:"Amazon.com Inc.",        qty:25, uc:230.72, lp:244.39,  cost:5768, mv:6109.75, gl:341.77,  gp:5.93,  color:"#e47911",lots:[{dt:"Dez 04, 2025",qty:25,uc:230.72,cost:5768}]},
+  {tk:"BETA",nm:"Beta Technologies Cl A", qty:250,uc:22.04,  lp:16.10,   cost:5511, mv:4025.00, gl:-1486,   gp:-26.96,color:"#1a1a2e",lots:[{dt:"Jan 30, 2026",qty:250,uc:22.04,cost:5511}]},
+  {tk:"LLY", nm:"Eli Lilly & Co.",        qty:41, uc:985.87, lp:1098.57, cost:40421,mv:45041.37,gl:4620.65, gp:11.43, color:"#d52b1e",lots:[{dt:"Nov 06, 2025",qty:21,uc:941.78,cost:19777},{dt:"Dez 11, 2025",qty:7,uc:1018.50,cost:7130},{dt:"Jan 30, 2026",qty:4,uc:1051.36,cost:4205},{dt:"Fev 05, 2026",qty:9,uc:1034.28,cost:9309}]},
+  {tk:"MSFT",nm:"Microsoft Corp.",        qty:18, uc:429.15, lp:379.40,  cost:7725, mv:6829.20, gl:-895.57, gp:-11.59,color:"#00a4ef",lots:[{dt:"Jan 30, 2026",qty:18,uc:429.15,cost:7725}]}
+];
+
+// ═══ DADOS BRASIL — Relatório BB 22/06/2026 ═══
+var brRV=[
+  {tk:"PETR4", nm:"Petrobras PN",       mv:46200.00, pct:5.84, color:"#009c3b"},
+  {tk:"ITSA4", nm:"Itaúsa PN",          mv:47442.24, pct:6.00, color:"#003399"},
+  {tk:"BBDC4", nm:"Bradesco PN",        mv:31860.00, pct:4.03, color:"#cc0000"},
+  {tk:"CMIG4", nm:"Cemig PN",           mv:36584.00, pct:4.62, color:"#005ca9"},
+  {tk:"ITUB4", nm:"Itaú Unibanco PN",   mv:20620.60, pct:2.61, color:"#f26522"},
+  {tk:"CPLE3", nm:"Copel ON",           mv:21840.00, pct:2.76, color:"#006633"},
+  {tk:"ISAE4", nm:"ISA Energia BR",     mv:43248.00, pct:5.47, color:"#0066cc"},
+  {tk:"CDII11",nm:"Sparta CDII (FII)",  mv:39063.20, pct:4.94, color:"#4a4a4a"}
+];
+
+var brRFI=[
+  {nm:"CRA BRF 04/35",        mv:23704.50, pct:3.00, tp:"IPCA+", vc:"04/2035"},
+  {nm:"CRI ASSAI 10/28",      mv:24754.84, pct:3.13, tp:"IPCA+", vc:"10/2028"},
+  {nm:"CRI DIRECIONAL 06/32", mv:25709.63, pct:3.25, tp:"IPCA+", vc:"06/2032"},
+  {nm:"DEB MRS 09/38",        mv:52536.00, pct:6.64, tp:"IPCA+", vc:"09/2038"},
+  {nm:"DEB EQUATORIAL 09/36", mv:33420.09, pct:4.22, tp:"IPCA+", vc:"09/2036"},
+  {nm:"NTN-B 150535",         mv:25454.45, pct:3.23, tp:"IPCA+", vc:"05/2035"},
+  {nm:"NTNB PRINC 150529",    mv:27732.01, pct:3.58, tp:"IPCA+", vc:"05/2029"}
+];
+var brRFP=[
+  {nm:"CRA MARFRIG 10/31", mv:18494.80, pct:2.34, tp:"Pré", vc:"10/2031"},
+  {nm:"CRA MINERVA 04/32", mv:19357.20, pct:2.45, tp:"Pré", vc:"04/2032"},
+  {nm:"CRA BRF 04/33",     mv:25598.00, pct:3.24, tp:"Pré", vc:"04/2033"},
+  {nm:"NTN-F 010135",      mv:20792.54, pct:2.65, tp:"Pré", vc:"01/2035"},
+  {nm:"LTN-010128",        mv:22606.69, pct:2.93, tp:"Pré", vc:"01/2028"}
+];
+var brRFC=[
+  {nm:"RF REF DI CASH PVT", mv:98818.18, pct:12.54, tp:"CDI+", vc:"—"}
+];
+var brMM=[
+  {nm:"MM GALAPAGOS EVOLUT", mv:54312.71, pct:6.90, tp:"Multi", vc:"—"},
+  {nm:"MM GLOBAL DIV PVT",   mv:28803.84, pct:3.65, tp:"Multi", vc:"—"}
+];
+
+var CASH=1101.36;
+
+// ═══ HELPERS ═══
+function fu(n,d){d=d===undefined?2:d;return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",minimumFractionDigits:d}).format(n);}
+function fbr(n){return"R$\u00a0"+new Intl.NumberFormat("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);}
+function fn4(n){return new Intl.NumberFormat("en-US",{minimumFractionDigits:4,maximumFractionDigits:4}).format(n);}
+function gs(n){return n>=0?"+":"";}
+function gc(n){return n>=0?"pos":"neg";}
+function el(id){return document.getElementById(id);}
+function mk(tag,cls){var e=document.createElement(tag);if(cls)e.className=cls;return e;}
+
+// ═══ TABS ═══
+function showTab(t){
+  ["ov","usd","brl","perf"].forEach(function(x,i){
+    el("page-"+x).classList.toggle("active",x===t);
+    document.querySelectorAll(".tab")[i].classList.toggle("active",x===t);
+    document.querySelectorAll(".nb")[i].classList.toggle("active",x===t);
+  });
+  window.scrollTo(0,0);
+}
+
+// ═══ CLOCK ═══
+function tick(){
+  var n=new Date();
+  el("htime").textContent=n.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+}
+tick(); setInterval(tick,30000);
+
+// ═══ BUILD OVERVIEW ═══
+function buildOv(){
+  var fmv=0,fgl=0,smv=0,sgl=0;
+  funds.forEach(function(f){if(!f.sub){fmv+=f.mv;fgl+=f.gl;}});
+  stocks.forEach(function(s){smv+=s.mv;sgl+=s.gl;});
+  var tot=fmv+smv+CASH,tgl=fgl+sgl;
+  el("ov-total").textContent=fu(tot,0)+" USD";
+  el("ov-usd").textContent=fu(tot,0);
+  el("ov-gl").innerHTML="<span class='"+gc(tgl)+"'>"+gs(tgl)+fu(tgl,0)+"</span>";
+  el("s-fmv").textContent=fu(fmv,0);el("s-smv").textContent=fu(smv,0);
+  el("s-fgl").textContent=gs(fgl)+fu(fgl,0);el("s-fgl").className="v "+gc(fgl);
+  el("s-sgl").textContent=gs(sgl)+fu(sgl,0);el("s-sgl").className="v "+gc(sgl);
+  el("usd-total").textContent=fu(tot,0);
+  el("usd-fmv").textContent=fu(fmv,0);el("usd-smv").textContent=fu(smv,0);
+  el("usd-gl").innerHTML="<span class='"+gc(tgl)+"'>"+gs(tgl)+fu(tgl,0)+"</span>";
+
+  // Stocks mini
+  var se=el("ov-stocks");se.innerHTML="";
+  stocks.forEach(function(s){
+    var c=mk("div","sk");
+    c.innerHTML="<div class='skh'><div class='skt' style='background:"+s.color+"'>"+s.tk+"</div>"
+      +"<div class='ski'><div class='skn'>"+s.nm+"</div><div class='skq'>"+s.qty+" ações · custo "+fu(s.uc,2)+"</div></div>"
+      +"<div class='skp-b'><div class='skp' id='ovp-"+s.tk+"'>"+fu(s.lp,2)+"</div>"
+      +"<div class='skc "+gc(s.gl)+"' id='ovc-"+s.tk+"'>"+gs(s.gp)+s.gp.toFixed(2)+"%</div></div></div>"
+      +"<div class='skg'><div class='skgl'>Ganho / Perda</div>"
+      +"<div class='skgv "+gc(s.gl)+"' id='ovg-"+s.tk+"'>"+gs(s.gl)+fu(s.gl)+" ("+gs(s.gp)+s.gp.toFixed(2)+"%)</div></div>";
+    se.appendChild(c);
+  });
+
+  // BR mini
+  var be=el("ov-br");be.innerHTML="";
+  brRV.forEach(function(s){
+    var c=mk("div","sk");
+    c.innerHTML="<div class='skh'><div class='skt' style='background:"+s.color+";font-size:9px'>"+s.tk+"</div>"
+      +"<div class='ski'><div class='skn'>"+s.nm+"</div><div class='skq'>"+s.pct+"% da carteira</div></div>"
+      +"<div class='skp-b'><div class='skp' id='brp-"+s.tk+"' style='font-size:11px'>—</div>"
+      +"<div class='skc' id='brc-"+s.tk+"' style='font-size:8px'>Atualizar</div></div></div>"
+      +"<div class='skg'><div class='skgl'>Saldo 29/05/2026</div>"
+      +"<div class='skgv blue'>"+fbr(s.mv)+"</div></div>";
+    be.appendChild(c);
+  });
+}
+
+// ═══ BUILD STOCKS ═══
+function buildStocks(){
+  var e=el("usd-stocks");e.innerHTML="";
+  stocks.forEach(function(s){
+    var lots="";
+    if(s.lots.length>1){
+      lots="<div class='slw'><div style='padding:3px 11px;font-size:7px;font-weight:700;color:var(--muted);text-transform:uppercase'>Lotes</div>";
+      s.lots.forEach(function(l){lots+="<div class='slo'><div><div class='ll'>Data</div><div class='lv'>"+l.dt+"</div></div><div><div class='ll'>Qtd</div><div class='lv'>"+l.qty+"</div></div><div><div class='ll'>Custo</div><div class='lv'>"+fu(l.uc,2)+"</div></div><div><div class='ll'>Total</div><div class='lv'>"+fu(l.cost,0)+"</div></div></div>";});
+      lots+="</div>";
+    }
+    var c=mk("div","sk");
+    c.innerHTML="<div class='skh'><div class='skt' style='background:"+s.color+"'>"+s.tk+"</div>"
+      +"<div class='ski'><div class='skn'>"+s.nm+"</div><div class='skq'>"+s.qty+" ações · custo "+fu(s.uc,2)+"</div></div>"
+      +"<div class='skp-b'><div class='skp' id='sp-"+s.tk+"'>"+fu(s.lp,2)+"</div>"
+      +"<div class='skc "+gc(s.gl)+"' id='sc-"+s.tk+"'>extrato</div></div></div>"
+      +"<div class='sdg'><div><div class='dl'>Custo Unit.</div><div class='dv'>"+fu(s.uc,2)+"</div></div>"
+      +"<div><div class='dl'>Custo Total</div><div class='dv'>"+fu(s.cost,0)+"</div></div>"
+      +"<div><div class='dl'>Mkt Value</div><div class='dv' id='sm-"+s.tk+"'>"+fu(s.mv,0)+"</div></div></div>"
+      +"<div class='skg'><div class='skgl'>Ganho / Perda</div>"
+      +"<div class='skgv "+gc(s.gl)+"' id='sg-"+s.tk+"'>"+gs(s.gl)+fu(s.gl)+" ("+gs(s.gp)+s.gp.toFixed(2)+"%)</div></div>"
+      +lots
+      +"<div class='lnks'><a class='lnk' href='https://finance.yahoo.com/quote/"+s.tk+"' target='_blank'>📊 Yahoo</a>"
+      +"<a class='lnk' href='https://www.google.com/search?q="+s.tk+"+stock+price' target='_blank'>🔍 Google</a></div>";
+    e.appendChild(c);
+  });
+}
+
+// ═══ BUILD FUNDS ═══
+function buildFunds(){
+  var e=el("usd-funds");e.innerHTML="";
+  funds.forEach(function(f){
+    var c=mk("div","fc"+(f.sub?" sub":""));
+    c.innerHTML="<div class='fh'><div class='fn2'>"+f.id+"</div>"
+      +"<div class='fi'><div class='fnm'>"+f.nm+"</div><div class='fc2'>"+f.cusip+" · "+f.tr+"</div></div></div>"
+      +"<div class='fdg'><div><div class='dl'>Qtd</div><div class='dv'>"+fn4(f.qty)+"</div></div>"
+      +"<div><div class='dl'>Custo Total</div><div class='dv'>"+fu(f.cost,0)+"</div></div>"
+      +"<div><div class='dl'>Custo Unit.</div><div class='dv'>"+fu(f.uc,2)+"</div></div></div>"
+      +"<div class='nmr'><div><div class='nl'>Last Price</div><div class='nv'>"+fn4(f.lp)+"</div></div>"
+      +"<div><div class='nl'>Market Value</div><div class='nv'>"+fu(f.mv,0)+"</div></div></div>"
+      +"<div class='gr'><div class='grl'>Ganho / Perda</div>"
+      +"<div class='grv "+gc(f.gl)+"'>"+gs(f.gl)+fu(f.gl)+" ("+gs(f.gp)+f.gp.toFixed(2)+"%)</div></div>"
+      +"<div class='lnks'><a class='lnk' href='"+f.site+"' target='_blank'>🔗 Site</a>"
+      +"<a class='lnk' href='https://www.google.com/search?q="+encodeURIComponent(f.nm+" NAV USD")+"' target='_blank'>🔍 NAV</a></div>";
+    e.appendChild(c);
+  });
+}
+
+// ═══ BUILD BRASIL ═══
+function buildBR(){
+  var rv=el("br-rv");rv.innerHTML="";
+  brRV.forEach(function(s){
+    var c=mk("div","sk");
+    c.innerHTML="<div class='skh'><div class='skt' style='background:"+s.color+";font-size:9px'>"+s.tk+"</div>"
+      +"<div class='ski'><div class='skn'>"+s.nm+"</div><div class='skq'>"+s.pct+"% da carteira</div></div>"
+      +"<div class='skp-b'><div class='skp' id='brpf-"+s.tk+"' style='font-size:11px'>—</div>"
+      +"<div class='skc' id='brcf-"+s.tk+"' style='font-size:8px'>Atualizar</div></div></div>"
+      +"<div class='skg'><div class='skgl'>Saldo 29/05/2026</div><div class='skgv blue'>"+fbr(s.mv)+"</div></div>"
+      +"<div class='lnks'><a class='lnk' href='https://www.google.com/search?q="+s.tk+"+cotacao+b3+hoje' target='_blank'>🔍 Cotação</a>"
+      +"<a class='lnk' href='https://finance.yahoo.com/quote/"+s.tk+".SA' target='_blank'>📊 Yahoo</a></div>";
+    rv.appendChild(c);
+  });
+  function bFx(data,eid,bg){
+    var e=el(eid);e.innerHTML="";
+    data.forEach(function(a){
+      var c=mk("div","brc");
+      c.innerHTML="<div class='brh'><span class='brbg' style='background:"+bg+"'>"+a.tp+"</span>"
+        +"<span class='brnm'>"+a.nm+"</span><span class='brpct'>"+a.pct+"%</span></div>"
+        +"<div class='brd'><div><div class='dl'>Saldo Líq.</div><div class='dv' style='color:#1a5c1a'>"+fbr(a.mv)+"</div></div>"
+        +"<div><div class='dl'>Vencimento</div><div class='dv'>"+a.vc+"</div></div>"
+        +"<div><div class='dl'>Tipo</div><div class='dv'>"+a.tp+"</div></div></div>";
+      e.appendChild(c);
+    });
+  }
+  bFx(brRFI,"br-rfi","#1a4d80");
+  bFx(brRFP,"br-rfp","#8a6900");
+  bFx(brRFC,"br-rfc","#2d7a2d");
+  bFx(brMM, "br-mm", "#6b4fbb");
+}
+
+// ═══ STATUS / PROGRESS ═══
+function setSt(id,h){var e=el(id);if(e)e.innerHTML=h;}
+function setPg(pid,pfid,pct,msg){
+  var pw=el(pid);if(!pw)return;
+  pw.classList.add("on");
+  var pl=pw.querySelector("p");if(pl)pl.textContent=msg||"";
+  var pf=el(pfid);if(pf)pf.style.width=pct+"%";
+}
+function hidePg(pid){setTimeout(function(){var e=el(pid);if(e)e.classList.remove("on");},1500);}
+
+// ═══ API: AÇÕES EUA ═══
+async function refreshStocks(){
+  setSt("ov-st","<span class='spin'></span>Buscando preços das ações EUA…");
+  setPg("ov-pg","ov-pf",20,"Conectando à IA…");
+  try{
+    var today=new Date().toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
+    var res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:300,
+        tools:[{type:"web_search_20250305",name:"web_search"}],
+        messages:[{role:"user",content:"Today is "+today+". Current stock prices USD for AMZN, BETA, LLY, MSFT. Reply ONLY valid JSON no markdown: {\"AMZN\":200.00,\"BETA\":16.00,\"LLY\":1100.00,\"MSFT\":380.00}"}]})
+    });
+    setPg("ov-pg","ov-pf",70,"Processando…");
+    var data=await res.json();
+    var txt=data.content.filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("");
+    var m=txt.match(/\{[\s\S]*?\}/);
+    if(!m)throw new Error("Resposta inválida");
+    var prices=JSON.parse(m[0]);
+    stocks.forEach(function(s){
+      if(!prices[s.tk])return;
+      s.lp=prices[s.tk];s.mv=s.lp*s.qty;s.gl=s.mv-s.cost;s.gp=(s.gl/s.cost)*100;
+      ["sp-","ovp-"].forEach(function(p){var e=el(p+s.tk);if(e)e.textContent=fu(s.lp,2);});
+      ["sc-","ovc-"].forEach(function(p){var e=el(p+s.tk);if(e){e.textContent=gs(s.gp)+s.gp.toFixed(2)+"%";e.className="skc "+gc(s.gl);}});
+      ["sg-","ovg-"].forEach(function(p){var e=el(p+s.tk);if(e){e.textContent=gs(s.gl)+fu(s.gl)+" ("+gs(s.gp)+s.gp.toFixed(2)+"%)";e.className="skgv "+gc(s.gl);}});
+      var me=el("sm-"+s.tk);if(me)me.textContent=fu(s.mv,0);
+    });
+    buildOv();
+    var now=new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+    setSt("ov-st","<span class='dot'></span>✅ Ações EUA atualizadas às "+now);
+    setSt("usd-st","✅ Ações atualizadas às "+now);
+    el("s-ssub").textContent="atualizado "+now;
+    setPg("ov-pg","ov-pf",100,"Concluído");
+  }catch(e){
+    setSt("ov-st","❌ Erro ações: "+e.message);
+    setPg("ov-pg","ov-pf",0,"");
+  }
+  hidePg("ov-pg");
+}
+
+// ═══ API: FUNDOS EUA ═══
+async function refreshFunds(){
+  var unique=[],seen={};
+  funds.forEach(function(f){if(!seen[f.cusip]){seen[f.cusip]=true;unique.push(f);}});
+  setSt("usd-st","<span class='spin'></span>Buscando NAVs ("+unique.length+" fundos)…");
+  setPg("usd-pg","usd-pf",5,"Iniciando…");
+  for(var i=0;i<unique.length;i++){
+    var f=unique[i];
+    setPg("usd-pg","usd-pf",Math.round((i/unique.length)*100),(i+1)+"/"+unique.length+": "+f.nm.slice(0,36)+"…");
+    try{
+      var today=new Date().toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
+      var res=await fetch("https://api.anthropic.com/v1/messages",{
+        method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:150,
+          tools:[{type:"web_search_20250305",name:"web_search"}],
+          messages:[{role:"user",content:"Today is "+today+". NAV per share USD for \""+f.nm+"\" CUSIP "+f.cusip+". Reply ONLY JSON no markdown: {\"nav\":12.3456}"}]})
+      });
+      var data=await res.json();
+      var txt=data.content.filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("");
+      var m=txt.match(/\{[\s\S]*?\}/);
+      if(m){var p=JSON.parse(m[0]);if(p.nav&&p.nav>0){funds.filter(function(ff){return ff.cusip===f.cusip;}).forEach(function(ff){ff.lp=p.nav;ff.mv=p.nav*ff.qty;ff.gl=ff.mv-ff.cost;ff.gp=(ff.gl/ff.cost)*100;});}}
+    }catch(e){}
+  }
+  buildFunds();buildOv();
+  var now=new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+  setSt("usd-st","✅ Fundos atualizados às "+now);
+  setSt("ov-st","<span class='dot'></span>✅ Fundos EUA atualizados às "+now);
+  setPg("usd-pg","usd-pf",100,"Concluído");
+  hidePg("usd-pg");
+}
+
+// ═══ API: BRASIL B3 ═══
+async function refreshBR(){
+  setSt("br-st","<span class='spin'></span>Buscando cotações B3…");
+  setSt("ov-st","<span class='spin'></span>Buscando cotações B3…");
+  setPg("br-pg","br-pf",20,"Conectando…");
+  try{
+    var today=new Date().toLocaleDateString("pt-BR");
+    var tks=brRV.map(function(s){return s.tk;}).join(", ");
+    var res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:300,
+        tools:[{type:"web_search_20250305",name:"web_search"}],
+        messages:[{role:"user",content:"Hoje é "+today+". Cotações atuais em R$ na B3 para: "+tks+". Responda APENAS JSON válido sem markdown: {\"PETR4\":38.50,\"ITSA4\":10.20,\"BBDC4\":14.30,\"CMIG4\":12.40,\"ITUB4\":38.00,\"CPLE3\":8.50,\"ISAE4\":16.20,\"CDII11\":105.00}"}]})
+    });
+    setPg("br-pg","br-pf",70,"Processando…");
+    var data=await res.json();
+    var txt=data.content.filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("");
+    var m=txt.match(/\{[\s\S]*?\}/);
+    if(!m)throw new Error("Resposta inválida");
+    var prices=JSON.parse(m[0]);
+    brRV.forEach(function(s){
+      if(!prices[s.tk])return;
+      var p=prices[s.tk];
+      ["brp-","brpf-"].forEach(function(pfx){var e=el(pfx+s.tk);if(e)e.textContent=fbr(p);});
+      ["brc-","brcf-"].forEach(function(pfx){var e=el(pfx+s.tk);if(e){e.textContent="atualizado";e.className="skc pos";}});
+    });
+    var now=new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+    setSt("br-st","<span class='dot'></span>✅ Cotações B3 atualizadas às "+now);
+    setSt("ov-st","<span class='dot'></span>✅ Cotações B3 atualizadas às "+now);
+    setPg("br-pg","br-pf",100,"Concluído");
+  }catch(e){
+    setSt("br-st","❌ Erro: "+e.message);
+    setSt("ov-st","❌ Erro ao buscar cotações BR");
+  }
+  hidePg("br-pg");
+}
+
+// ═══ iOS HINT ═══
+var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+var isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+if(isIOS&&isSafari&&!window.navigator.standalone){
+  el("ios-hint").classList.add("show");
+}
+
+// ═══ PWA ═══
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(function(){});
+}
+// ═══ INIT ═══
+buildFunds();
+buildStocks();
+buildBR();
+buildOv();
+
+// Auto-atualização ao abrir
+setTimeout(function(){
+  refreshStocks();
+}, 1500);
+</script>
+</body>
+</html>
